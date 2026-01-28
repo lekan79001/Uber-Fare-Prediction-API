@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  fast-api-service:
+    build:
+      context: ./FAST_API_SERVICE
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - AWS_REGION=${AWS_REGION}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    volumes:
+      - ./FAST_API_SERVICE:/app
+    networks:
+      - ml-network
+
+  containerization:
+    build:
+      context: ./CONTAINERIZATION
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    depends_on:
+      fast-api-service:
+        condition: service_healthy
+    environment:
+      - ML_MODEL_PATH=/app/models
+      - FAST_API_URL=http://fast-api-service:8000
+    volumes:
+      - ./models:/app/models
+    networks:
+      - ml-network
+
+  # Optional: Add PostgreSQL if needed
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: mldb
+      POSTGRES_USER: mluser
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ml-network
+
+  # Optional: Add Redis for caching
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - ml-network
+
+networks:
+  ml-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

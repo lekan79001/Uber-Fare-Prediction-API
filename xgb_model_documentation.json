@@ -1,0 +1,29 @@
+{
+    "model_type": "XGBoost Regressor",
+    "features": [
+        "trip_distance",
+        "pickup_hour",
+        "is_rush_hour",
+        "pickup_in_manhattan",
+        "distance_rush_interaction"
+    ],
+    "feature_importances": {
+        "trip_distance": 0.9464235901832581,
+        "pickup_hour": 0.017677990719676018,
+        "is_rush_hour": 0.012559423223137856,
+        "pickup_in_manhattan": 0.017939923331141472,
+        "distance_rush_interaction": 0.0053990064188838005
+    },
+    "evaluation_metrics": {
+        "train": {
+            "MAE": 2.447789831413865,
+            "RMSE": 6.260962843698835,
+            "R2": 0.8132643583876171
+        },
+        "test": {
+            "MAE": 2.4699347297420498,
+            "RMSE": 5.353437739298999,
+            "R2": 0.8584429055065745
+        }
+    }
+}
