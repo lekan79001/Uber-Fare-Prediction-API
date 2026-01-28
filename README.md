@@ -33,11 +33,34 @@ POST /predict
    git clone https://github.com/lekan79001/Uber-Fare-Prediction-API.git
    cd Uber-Fare-Prediction-API
    ```
-2. Build and start with Docker Compose:
+2. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+3. Build and start with Docker Compose:
    ```
    docker-compose up --build
    ```
-3. Access the API at [http://localhost:8000/docs](http://localhost:8000/docs)
+4. Access the API at [http://localhost:8000/docs](http://localhost:8000/docs)
+
+## requirements.txt
+Main dependencies:
+```
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+numpy==1.24.3
+pandas==2.0.3
+scikit-learn==1.3.2
+xgboost==2.0.3
+joblib==1.3.2
+python-dotenv==1.0.0
+python-multipart==0.0.6
+prometheus-fastapi-instrumentator==6.1.0
+pytest==7.4.4
+pytest-cov==4.1.0
+httpx==0.26.0
+```
 
 ## CI/CD with GitHub Actions
 This project includes a basic CI workflow to:
