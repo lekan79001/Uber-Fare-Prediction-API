@@ -27,7 +27,39 @@ POST /predict
 }
 ```
 
-## Running Locally
+
+## 🚀 Streamlit App (Web UI)
+
+You can run the Streamlit web app for batch predictions and a user-friendly interface.
+
+### Run Streamlit Locally
+1. Clone the repo:
+   ```
+   git clone https://github.com/lekan79001/Uber-Fare-Prediction-API.git
+   cd Uber-Fare-Prediction-API
+   ```
+2. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+3. Start the Streamlit app:
+   ```
+   streamlit run app.py
+   ```
+
+### Deploy on Streamlit Community Cloud
+1. Push your code to a public GitHub repository.
+2. Go to [Streamlit Community Cloud](https://streamlit.io/cloud) and click 'New app'.
+3. Connect your GitHub repo and set the main file as `app.py`.
+4. Click 'Deploy'.
+
+#### Example Streamlit Badge (replace with your repo URL):
+
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/your-username/your-repo/main/app.py)
+
+---
+
+## Running Locally (API)
 1. Clone the repo:
    ```
    git clone https://github.com/lekan79001/Uber-Fare-Prediction-API.git
