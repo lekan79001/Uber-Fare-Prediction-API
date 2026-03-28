@@ -36,7 +36,7 @@ if uploaded_file is not None:
         st.subheader('Input Data')
         st.dataframe(data)
         # Preprocess datetime Columns
-       if 'tpep_pickup_datetime' in data.columns:
+        if 'tpep_pickup_datetime' in data.columns:
           data['tpep_pickup_datetime'] = pd.to_datetime(data['tpep_pickup_datetime'])
           data['tpep_dropoff_datetime'] = pd.to_datetime(data['tpep_dropoff_datetime'])
           data['pickup_hour'] = data['tpep_pickup_datetime'] .dt.hour
