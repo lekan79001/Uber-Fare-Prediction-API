@@ -35,6 +35,17 @@ if uploaded_file is not None:
         data = pd.read_csv(uploaded_file)
         st.subheader('Input Data')
         st.dataframe(data)
+        # Preprocess datetime Columns
+       if 'tpep_pickup_datetime' in data.columns:
+          data['tpep_pickup_datetime'] = pd.to_datetime(data['tpep_pickup_datetime'])
+          data['tpep_dropoff_datetime'] = pd.to_datetime(data['tpep_dropoff_datetime'])
+          data['pickup_hour'] = data['tpep_pickup_datetime'] .dt.hour
+          data['pickup_day'] = data['tpep_pickup_datetime'] .dt.dayofweek
+          data['pickup_month'] = data['tpep_pickup_datetime'] .dt.month
+          data = data.drop(['tpep_pickup_datetime', 'tpep_dropoff_datetime'], axis=1)
+        
+        # Drop the remaining non-numeric columns
+        data = data.select_dtypes(include=['number'])
 
         # Predict using the loaded model
         predictions = model.predict(data)
