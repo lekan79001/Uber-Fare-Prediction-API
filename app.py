@@ -35,17 +35,24 @@ if uploaded_file is not None:
         data = pd.read_csv(uploaded_file)
         st.subheader('Input Data')
         st.dataframe(data)
-        # Preprocess datetime Columns
-        if 'tpep_pickup_datetime' in data.columns:
-          data['tpep_pickup_datetime'] = pd.to_datetime(data['tpep_pickup_datetime'])
-          data['tpep_dropoff_datetime'] = pd.to_datetime(data['tpep_dropoff_datetime'])
-          data['pickup_hour'] = data['tpep_pickup_datetime'] .dt.hour
-          data['pickup_day'] = data['tpep_pickup_datetime'] .dt.dayofweek
-          data['pickup_month'] = data['tpep_pickup_datetime'] .dt.month
-          data = data.drop(['tpep_pickup_datetime', 'tpep_dropoff_datetime'], axis=1)
-        
-        # Drop the remaining non-numeric columns
-        data = data.select_dtypes(include=['number'])
+      # Engineer features to match model training
+      data['tpep_pickup_datetime'] = pd.to_datetime(data['tpep_pickup_datetime'])
+      data['pickup_hour'] = data['tpep_pickup_datetime'].dt.hour
+      data['is_rush_hour'] = data['pickup_hour'].apply(
+          lambda x: 1 if (7 <= x <= 9) or (17 <= x <= 19) else 0
+      )
+      data['pickup_in_manhattan'] = (
+      (data['pickup_latitude'].between(40.70, 40.83)) &
+      (data['pickup_longitude'].between(-74.02, -73.93))
+      ).astype(int)
+      data['distance_rush_interaction'] = (
+      data['trip_distance'] * data['is_rush_hour']
+      )
+
+      # Select only model features
+      features = ['trip_distance', 'pickup_hour', 'is_rush_hour',
+            'pickup_in_manhattan', 'distance_rush_interaction']
+      data = data[features]
 
         # Predict using the loaded model
         predictions = model.predict(data)
