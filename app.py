@@ -56,7 +56,7 @@ if uploaded_file is not None:
 
         # Predict using the loaded model
         predictions = model.predict(data)
-        predictions = predictions.clip(min=0)
+        predictions = predictions.clip(min=2.5)
         pred_df = pd.DataFrame(predictions, columns=['Prediction'])
         st.subheader('Predictions')
         st.dataframe(pred_df)
